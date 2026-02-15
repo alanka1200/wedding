@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Приглашение на свадьбу | Алан & Элина</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e8d9c0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #3a3a3a;
+            line-height: 1.6;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            max-width: 600px;
+            background-color: #faf0e6;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* СТИЛИ КОНВЕРТА */
+        .envelope {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            background-color: #f5e6d3;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.8s ease-in-out, opacity 0.5s ease;
+            pointer-events: all;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        .envelope--open {
+            transform: translateX(-50%) translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .envelope__flap {
+            flex: 1;
+            background: linear-gradient(145deg, #f5e6d3 0%, #e8d9c0 100%);
+            border: 2px solid #d4b79c;
+            position: relative;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .envelope__flap--top {
+            border-bottom: none;
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+            transform-origin: top;
+        }
+
+        .envelope__flap--bottom {
+            border-top: none;
+            clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+            transform-origin: bottom;
+        }
+
+        .envelope--open .envelope__flap--top {
+            transform: translateY(-100%);
+        }
+
+        .envelope--open .envelope__flap--bottom {
+            transform: translateY(100%);
+        }
+
+        .envelope__content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            width: 80%;
+        }
+
+        .envelope__title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            color: #5f4e3c;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            border-bottom: 1px dashed #b59d7a;
+            padding-bottom: 1rem;
+        }
+
+        .envelope__seal {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #e6c8a0, #b59d7a);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3), inset -2px -2px 5px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,240,0.5);
+            border: 3px solid #7a6a58;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .envelope__seal:hover {
+            transform: scale(1.05);
+        }
+        .envelope__seal span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #faf0e6;
+            text-shadow: 2px 2px 0 #5f4e3c;
+            letter-spacing: 5px;
+        }
+
+        .envelope__instruction {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #7a6a58;
+        }
+
+        /* ОСНОВНОЙ КОНТЕНТ */
+        .main-content {
+            padding: 2rem 1.5rem 3rem;
+            opacity: 0;
+            animation: appear 1s forwards;
+            animation-delay: 0.5s;
+        }
+        @keyframes appear {
+            to { opacity: 1; }
+        }
+
+        /* ПОЛАРОИДЫ */
+        .polaroids-section {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise" x="0%" y="0%" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.15 0"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.08"/></svg>');
+            background-color: #f0e1cf;
+            padding: 2rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .names-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #5f4e3c;
+            margin-bottom: 1.5rem;
+        }
+        .names-title span {
+            display: inline-block;
+            margin: 0 15px;
+            position: relative;
+        }
+        .names-title span::before,
+        .names-title span::after {
+            content: "—";
+            font-size: 1.5rem;
+            color: #b59d7a;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .names-title span::before { left: -30px; }
+        .names-title span::after { right: -30px; }
+
+        .polaroids-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .polaroid-card {
+            background: white;
+            padding: 10px 10px 20px 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            transition: transform 0.3s;
+            width: 180px;
+        }
+        .polaroid-card:last-child {
+            transform: rotate(3deg);
+        }
+        .polaroid-card:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        .polaroid-card__img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            filter: sepia(0.2);
+            margin-bottom: 8px;
+        }
+        .polaroid-card__caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #5f4e3c;
+        }
+
+        /* Общие стили слайдов */
+        .slide {
+            margin: 3rem 0;
+            text-align: center;
+        }
+        .slide h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #7a6a58;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        .slide h2::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 1px;
+            background: #b59d7a;
+            margin: 0.5rem auto;
+        }
+        .slide p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            max-width: 450px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Календарь */
+        .calendar-card {
+            background: #fff9f0;
+            border: 1px solid #d4b79c;
+            padding: 1.5rem 1rem;
+            border-radius: 16px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .calendar-month {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: #7a6a58;
+        }
+        .calendar-day {
+            font-size: 5rem;
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1;
+            color: #3a3a3a;
+            border: 3px solid #b59d7a;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem auto;
+        }
+        .calendar-year {
+            font-size: 1.2rem;
+            color: #7a6a58;
+        }
+
+        /* Кнопка */
+        .btn {
+            background: transparent;
+            border: 2px solid #b59d7a;
+            color: #5f4e3c;
+            padding: 12px 30px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background: #b59d7a;
+            color: #faf0e6;
+        }
+
+        /* Локация */
+        .location-details {
+            background: #fff9f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .location-photo {
+            margin: 1.5rem 0 1rem;
+        }
+        .location-photo img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Тайминг */
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .timeline-item {
+            flex: 1 0 120px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .timeline-time {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #7a6a58;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Дресс-код палитра */
+        .palette {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .palette-color {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .color1 { background: #f5e6d3; }
+        .color2 { background: #b59d7a; }
+        .color3 { background: #7a9e7e; }
+        .color4 { background: #3a3a3a; }
+
+        /* Карусель */
+        .carousel-container {
+            position: relative;
+            max-width: 300px;
+            margin: 1rem auto;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 200px;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,240,0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #5f4e3c;
+        }
+        .carousel-btn.prev { left: 5px; }
+        .carousel-btn.next { right: 5px; }
+
+        /* Форма анкеты */
+        .rsvp-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #7a6a58;
+        }
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d4b79c;
+            background: #fff9f0;
+            font-size: 1rem;
+        }
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .form-message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Таймер */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .countdown-item {
+            min-width: 70px;
+        }
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+            color: #7a6a58;
+            line-height: 1;
+        }
+        .countdown-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #7a6a58;
+        }
+
+        footer {
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            color: #b59d7a;
+        }
+    </style>
+</head>
+<body>
+    <div class="site-wrapper">
+        <!-- КОНВЕРТ -->
+        <div class="envelope" id="envelope">
+            <div class="envelope__flap envelope__flap--top"></div>
+            <div class="envelope__flap envelope__flap--bottom"></div>
+            <div class="envelope__content">
+                <div class="envelope__title">Приглашение на свадьбу</div>
+                <div class="envelope__seal" id="seal">
+                    <span>АЭ</span>   <!-- инициалы Алан и Элина (меняйте при необходимости) -->
+                </div>
+                <div class="envelope__instruction">нажмите, чтобы открыть</div>
+            </div>
+        </div>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <div class="main-content" id="mainContent">
+            <!-- Слайд с полароидами и именами -->
+            <section class="polaroids-section">
+                <div class="names-title">
+                    <span>Алан</span> & <span>Элина</span>
+                </div>
+                <div class="polaroids-grid">
+                    <div class="polaroid-card">
+                        <!-- Детское фото жениха: положите файл groom-child.jpg в папку с index.html -->
+                        <img class="polaroid-card__img" src="img\photo_2828142553628518344_c.jpg" alt="Алан в детстве">
+                        <div class="polaroid-card__caption">Кто будет моим мужем, когда я вырасту?</div>
+                    </div>
+                    <div class="polaroid-card">
+                        <!-- Детское фото невесты: положите bride-child.jpg в папку -->
+                        <img class="polaroid-card__img" src="img\photo_5407076802045794657_y.jpg" alt="Элина в детстве">
+                        <div class="polaroid-card__caption">Им буду я</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Текст -->
+            <section class="slide">
+                <p>Дорогие родные и друзья! Спешим сообщить вам радостную новость — мы женимся! В этот день мы очень хотим оказаться в окружении близких и дорогих людей.</p>
+            </section>
+
+            <!-- Дата -->
+            <section class="slide">
+                <h2>МЫ ЖДЕМ ВАС</h2>
+                <div class="calendar-card">
+                    <div class="calendar-month">Август</div>
+                    <div class="calendar-day">9</div>
+                    <div class="calendar-year">09.08.2026</div>
+                </div>
+            </section>
+
+            <!-- Локация -->
+            <section class="slide">
+                <h2>ЛОКАЦИЯ</h2>
+                <div class="location-details">
+                    <h3>Банкетный зал Алсу Маликовой</h3>
+                    <p>Банкетный зал Алсу Маликовой, ул. Аделя Кутуя, д. 145Б, г. Казань <br>Республика Татарстан</p>
+                    <!-- Фото места: положите location.jpg в папку -->
+                    <div class="location-photo">
+                        <img src="C:\Users\Alan\Desktop\БОТЫ_тг_и_другие\weiding\img\orig.jpg" alt="Банкетный зал Алсу Маликовой">
+                    </div>
+                </div>
+                <a href="https://yandex.ru/maps/-/CPUn405q" target="_blank" class="btn">Открыть на карте</a>
+            </section>
+
+            <!-- Программа -->
+            <section class="slide">
+                <h2>ПРОГРАММА ДНЯ</h2>
+                <div class="timeline">
+                    <div class="timeline-item"><span class="timeline-time">17:00</span><br>Сбор гостей</div>
+                    <div class="timeline-item"><span class="timeline-time">18:00</span><br>Банкет</div>
+                    <div class="timeline-item"><span class="timeline-time">22:00</span><br>Завершение</div>
+                </div>
+            </section>
+
+            <!-- Дресс-код -->
+            <section class="slide">
+                <h2>ДРЕСС-КОД</h2>
+                <p>Будем рады видеть вас в красивых нарядах в палитре нашей свадьбы</p>
+                <div class="palette">
+                    <div class="palette-color color1"></div>
+                    <div class="palette-color color2"></div>
+                    <div class="palette-color color3"></div>
+                    <div class="palette-color color4"></div>
+                </div>
+
+                <!-- Карусель образов: файлы outfit-1.jpg, outfit-2.jpg, outfit-3.jpg -->
+                <div class="carousel-container" id="carousel">
+                    <div class="carousel-track">
+                        <div class="carousel-slide"><img src="img\1000-like-miracle-fa7a110acc0d1ba462edb78d3a8433e0.jpg" alt="Образ 1"></div>
+                        <div class="carousel-slide"><img src="img\svdaba-v-zelenom-cvete1.jpg" alt="Образ 2"></div>
+                        <div class="carousel-slide"><img src="img\IMG_359.jpg" alt="Образ 3"></div>
+                    </div>
+                    <button class="carousel-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            <!-- Пожелания -->
+            <section class="slide">
+                <h2>ПОЖЕЛАНИЯ</h2>
+                <p>Лучшая поддержка для нас — ваши искренние пожелания и лучезарные улыбки, остальное можно подарить.</p>
+            </section>
+
+            <!-- Анкета RSVP + Google таблицы -->
+            <section class="slide">
+                <h2>АНКЕТА ГОСТЯ</h2>
+                <div class="rsvp-form">
+                    <div class="form-group">
+                        <label>Ваше имя и фамилия</label>
+                        <input type="text" id="guestName" placeholder="Например, Иван Петров">
+                    </div>
+                    <div class="form-group">
+                        <label>Вы сможете приехать?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="attendance" value="С радостью приду" checked> С радостью приду</label>
+                            <label><input type="radio" name="attendance" value="К сожалению, не смогу"> Не смогу</label>
+                        </div>
+                    </div>
+                    <button class="btn" id="submitRsvp">Подтвердить</button>
+                    <div id="formResult" class="form-message"></div>
+                </div>
+            </section>
+
+            <!-- Обратный отсчет -->
+            <section class="slide">
+                <h2>ДО СВАДЬБЫ ОСТАЛОСЬ</h2>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item"><span class="countdown-number" id="days">00</span><span class="countdown-label">дней</span></div>
+                    <div class="countdown-item"><span class="countdown-number" id="hours">00</span><span class="countdown-label">часов</span></div>
+                    <div class="countdown-item"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">минут</span></div>
+                    <div class="countdown-item"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">секунд</span></div>
+                </div>
+            </section>
+
+            <footer>С любовью, Алан и Элина</footer>
+        </div>
+    </div>
+
+    <script>
+        // === 1. ОТКРЫТИЕ КОНВЕРТА ===
+        const envelope = document.getElementById('envelope');
+        const seal = document.getElementById('seal');
+
+        seal.addEventListener('click', () => {
+            envelope.classList.add('envelope--open');
+        });
+
+        // === 2. КАРУСЕЛЬ ===
+        const track = document.querySelector('.carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        if (track && slides.length) {
+            let currentIndex = 0;
+            function updateSlide() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlide();
+            });
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlide();
+            });
+            window.addEventListener('resize', updateSlide);
+        }
+
+        // === 3. ТАЙМЕР ===
+        const countDownDate = new Date('Aug 9, 2026 17:00:00').getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+            if (distance < 0) {
+                document.getElementById('days').innerText = '00';
+                document.getElementById('hours').innerText = '00';
+                document.getElementById('minutes').innerText = '00';
+                document.getElementById('seconds').innerText = '00';
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // === 4. ОТПРАВКА В GOOGLE ТАБЛИЦЫ ===
+        document.getElementById('submitRsvp').addEventListener('click', function() {
+            const name = document.getElementById('guestName').value.trim();
+            const attendance = document.querySelector('input[name="attendance"]:checked').value;
+            const resultDiv = document.getElementById('formResult');
+
+            if (!name) {
+                resultDiv.style.color = 'red';
+                resultDiv.innerText = 'Пожалуйста, введите имя.';
+                return;
+            }
+
+            // ЗАМЕНИТЕ НА СВОЙ URL ОТ GOOGLE APPS SCRIPT
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxxxxx/exec'; // <-- СЮДА ВСТАВИТЬ ССЫЛКУ
+
+            resultDiv.innerText = 'Отправка...';
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'Name': name,
+                    'Attendance': attendance
+                })
+            })
+            .then(() => {
+                resultDiv.style.color = '#7a9e7e';
+                resultDiv.innerText = 'Спасибо! Ответ записан.';
+                document.getElementById('guestName').value = '';
+            })
+            .catch(error => {
+                resultDiv.style.color = 'red';
+                resultDiv.innerText = 'Ошибка. Попробуйте позже.';
+                console.error('Error!', error.message);
+            });
+        });
+    </script>
+</body>
+</html>
