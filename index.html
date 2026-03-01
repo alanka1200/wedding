@@ -233,8 +233,8 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1);
             width: 180px;
             opacity: 0;
-            animation: slideInRotate 0.8s ease-out forwards, swing 4s infinite ease-in-out 0.8s; /* сначала появление, затем постоянное покачивание */
-            transform-origin: bottom center; /* чтобы покачивание было естественным */
+            animation: slideInRotate 0.8s ease-out forwards, swing 4s infinite ease-in-out 0.8s;
+            transform-origin: bottom center;
         }
 
         .polaroid-card:first-child {
@@ -244,7 +244,7 @@
         .polaroid-card:last-child {
             transform: rotate(3deg);
             --rotate: 3deg;
-            animation-delay: 0.1s, 0.9s; /* задержка для второй карточки */
+            animation-delay: 0.1s, 0.9s;
         }
 
         @keyframes slideInRotate {
@@ -269,7 +269,7 @@
 
         .polaroid-card:hover {
             transform: rotate(0deg) scale(1.05);
-            animation: none; /* остановка покачивания при наведении */
+            animation: none;
         }
         .polaroid-card__img {
             width: 100%;
@@ -429,7 +429,7 @@
             font-size: 2.5rem;
             color: #7a6a58;
             margin-bottom: 0.5rem;
-            animation: gentleMove 2s infinite ease-in-out; /* теперь бесконечно, очень плавно */
+            animation: gentleMove 2s infinite ease-in-out;
         }
 
         @keyframes gentleMove {
@@ -480,14 +480,14 @@
         }
         .carousel-slide {
             min-width: 100%;
-            height: 320px; /* Увеличено для лучшего просмотра */
+            height: 320px;
             cursor: pointer;
         }
         .carousel-slide img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Фото целиком, без обрезки */
-            background-color: #f0e1cf; /* Фон на случай пустых областей */
+            object-fit: contain;
+            background-color: #f0e1cf;
             border-radius: 8px;
         }
         .carousel-btn {
@@ -845,36 +845,44 @@
             offset: 50
         });
 
-        // === 1. ОТКРЫТИЕ КОНВЕРТА И АНИМАЦИЯ КАЛЕНДАРЯ ===
+        // === 1. ОТКРЫТИЕ КОНВЕРТА И ЦИКЛИЧЕСКАЯ АНИМАЦИЯ КАЛЕНДАРЯ ===
         const envelope = document.getElementById('envelope');
         const seal = document.getElementById('seal');
         const currentDay = document.getElementById('currentDay');
         const calendarGrid = document.getElementById('calendarGrid');
 
+        // Функция запуска одного цикла анимации
+        function animateCalendar() {
+            // Сначала убираем классы, чтобы вернуть календарь в исходное состояние (если они были)
+            currentDay.classList.remove('animate');
+            calendarGrid.classList.remove('fade-others');
+
+            // Через 50 мс добавляем классы, чтобы анимация запустилась
+            setTimeout(() => {
+                currentDay.classList.add('animate');
+                calendarGrid.classList.add('fade-others');
+            }, 50);
+
+            // Через 5 секунд (длительность анимации + пауза) возвращаем исходный вид
+            setTimeout(() => {
+                currentDay.classList.remove('animate');
+                calendarGrid.classList.remove('fade-others');
+            }, 5000); // 2 сек анимация + 3 сек покоя
+        }
+
+        // Запуск анимации при открытии конверта
         seal.addEventListener('click', () => {
             envelope.classList.add('envelope--open');
-            // Запускаем анимацию календаря через 0.8 сек (время закрытия конверта)
-            setTimeout(() => {
-                if (currentDay) {
-                    currentDay.classList.add('animate');
-                }
-                if (calendarGrid) {
-                    calendarGrid.classList.add('fade-others');
-                }
-            }, 800);
+            // Ждём, пока конверт уедет (0.8 сек), затем запускаем анимацию
+            setTimeout(animateCalendar, 800);
         });
 
-        // Циклическая анимация календаря каждые 10 секунд
+        // Циклический запуск каждые 7 секунд (5 сек анимация + 2 сек пауза)
         setInterval(() => {
-            if (currentDay && envelope.classList.contains('envelope--open')) {
-                // Убираем класс, чтобы перезапустить анимацию
-                currentDay.classList.remove('animate');
-                // Небольшая задержка перед добавлением, чтобы анимация сбросилась
-                setTimeout(() => {
-                    currentDay.classList.add('animate');
-                }, 100);
+            if (envelope.classList.contains('envelope--open')) {
+                animateCalendar();
             }
-        }, 10000);
+        }, 7000);
 
         // === 2. КАРУСЕЛИ (универсальная функция) ===
         function initCarousel(trackId, prevId, nextId) {
