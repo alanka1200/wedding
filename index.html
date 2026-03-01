@@ -28,6 +28,7 @@
             min-height: 100vh;
             color: #3a3a3a;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .site-wrapper {
@@ -38,6 +39,32 @@
             position: relative;
             overflow: hidden;
             min-height: 100vh;
+        }
+
+        /* Декоративные элементы (цветок и кольца) */
+        .decor-flower, .decor-rings {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .decor-flower {
+            top: 20px;
+            left: -30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23b59d7a"><path d="M50 20 L60 40 L80 40 L65 55 L70 75 L50 65 L30 75 L35 55 L20 40 L40 40 Z"/></svg>');
+            transform: rotate(-10deg);
+        }
+
+        .decor-rings {
+            bottom: 20px;
+            right: -30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="%23b59d7a" stroke-width="3"><circle cx="30" cy="50" r="15"/><circle cx="60" cy="50" r="15"/><circle cx="45" cy="35" r="15"/></svg>');
+            transform: rotate(10deg);
         }
 
         /* СТИЛИ КОНВЕРТА */
@@ -140,7 +167,7 @@
         }
 
         .envelope__instruction {
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #7a6a58;
@@ -152,6 +179,8 @@
             opacity: 0;
             animation: appear 1s forwards;
             animation-delay: 0.5s;
+            position: relative;
+            z-index: 1;
         }
         @keyframes appear {
             to { opacity: 1; }
@@ -202,15 +231,45 @@
             background: white;
             padding: 10px 10px 20px 10px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1);
-            transform: rotate(-2deg);
-            transition: transform 0.3s;
             width: 180px;
+            opacity: 0;
+            animation: slideInRotate 0.8s ease-out forwards, swing 4s infinite ease-in-out 0.8s; /* сначала появление, затем постоянное покачивание */
+            transform-origin: bottom center; /* чтобы покачивание было естественным */
+        }
+
+        .polaroid-card:first-child {
+            transform: rotate(-2deg);
+            --rotate: -2deg;
         }
         .polaroid-card:last-child {
             transform: rotate(3deg);
+            --rotate: 3deg;
+            animation-delay: 0.1s, 0.9s; /* задержка для второй карточки */
         }
+
+        @keyframes slideInRotate {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) rotate(calc(var(--rotate, -2deg) - 5deg));
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotate(var(--rotate, -2deg));
+            }
+        }
+
+        /* Бесконечное покачивание */
+        @keyframes swing {
+            0% { transform: rotate(var(--rotate, -2deg)); }
+            25% { transform: rotate(calc(var(--rotate, -2deg) + 1deg)); }
+            50% { transform: rotate(var(--rotate, -2deg)); }
+            75% { transform: rotate(calc(var(--rotate, -2deg) - 1deg)); }
+            100% { transform: rotate(var(--rotate, -2deg)); }
+        }
+
         .polaroid-card:hover {
             transform: rotate(0deg) scale(1.05);
+            animation: none; /* остановка покачивания при наведении */
         }
         .polaroid-card__img {
             width: 100%;
@@ -219,6 +278,7 @@
             display: block;
             filter: sepia(0.2);
             margin-bottom: 8px;
+            cursor: pointer;
         }
         .polaroid-card__caption {
             font-family: 'Cormorant Garamond', serif;
@@ -289,6 +349,7 @@
             margin: 1rem 0;
             width: 100%;
             max-width: 300px;
+            transition: all 0.5s ease;
         }
         .weekday {
             font-weight: 600;
@@ -311,13 +372,40 @@
             border: 2px solid #c94f4f;
             font-weight: 700;
             background: #fff0f0;
-            animation: pulse 1.5s infinite;
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(201, 79, 79, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(201, 79, 79, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(201, 79, 79, 0); }
+
+        .calendar-day--current.animate {
+            animation: growNumber 1.5s ease-in-out forwards;
         }
+
+        @keyframes growNumber {
+            0% {
+                transform: scale(1);
+                background: #fff0f0;
+                border-color: #c94f4f;
+            }
+            50% {
+                transform: scale(1.8);
+                background: #ffd7d7;
+                border-color: #ff0000;
+            }
+            100% {
+                transform: scale(1.3);
+                background: #ffd7d7;
+                border-color: #c94f4f;
+                box-shadow: 0 0 20px rgba(201, 79, 79, 0.7);
+            }
+        }
+
+        .calendar-grid.fade-others .calendar-day:not(.calendar-day--current) {
+            animation: fadeOut 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.2); display: none; }
+        }
+
         .calendar-date-full {
             font-size: 1.2rem;
             color: #7a6a58;
@@ -341,7 +429,17 @@
             font-size: 2.5rem;
             color: #7a6a58;
             margin-bottom: 0.5rem;
+            animation: gentleMove 2s infinite ease-in-out; /* теперь бесконечно, очень плавно */
         }
+
+        @keyframes gentleMove {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-3px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(2px); }
+            100% { transform: translateY(0); }
+        }
+
         .timeline-time {
             font-size: 1.8rem;
             font-weight: 600;
@@ -371,7 +469,7 @@
         /* Карусель (общая) */
         .carousel-container {
             position: relative;
-            max-width: 300px;
+            max-width: 500px;
             margin: 1rem auto;
             overflow: hidden;
             border-radius: 8px;
@@ -382,12 +480,14 @@
         }
         .carousel-slide {
             min-width: 100%;
-            height: 200px;
+            height: 320px; /* Увеличено для лучшего просмотра */
+            cursor: pointer;
         }
         .carousel-slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* Фото целиком, без обрезки */
+            background-color: #f0e1cf; /* Фон на случай пустых областей */
             border-radius: 8px;
         }
         .carousel-btn {
@@ -403,6 +503,7 @@
             font-size: 1.2rem;
             color: #5f4e3c;
             transition: background 0.3s;
+            z-index: 5;
         }
         .carousel-btn:hover {
             background: #fff9f0;
@@ -437,41 +538,26 @@
             color: #faf0e6;
         }
 
-        /* Форма анкеты */
-        .rsvp-form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #7a6a58;
-        }
-        .form-group input[type="text"] {
+        /* Форма анкеты (iframe) */
+        .rsvp-form iframe {
+            border: none;
             width: 100%;
-            padding: 12px;
-            border: 1px solid #d4b79c;
-            background: #fff9f0;
-            font-size: 1rem;
+            height: 500px;
             border-radius: 8px;
         }
-        .radio-group {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
+
+        /* Контакты */
+        .contact-info {
+            background: #fff9f0;
+            padding: 1.5rem;
+            border-radius: 12px;
         }
-        .radio-group label {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+        .contact-info p {
+            margin: 0.5rem 0;
         }
-        .form-message {
-            margin-top: 1rem;
-            font-size: 0.9rem;
+        .contact-info i {
+            color: #b59d7a;
+            width: 30px;
         }
 
         /* Таймер */
@@ -497,31 +583,72 @@
             color: #7a6a58;
         }
 
-        /* Контакты */
-        .contact-info {
-            background: #fff9f0;
-            padding: 1.5rem;
-            border-radius: 12px;
-        }
-        .contact-info p {
-            margin: 0.5rem 0;
-        }
-        .contact-info i {
-            color: #b59d7a;
-            width: 30px;
-        }
-
         footer {
             margin-top: 4rem;
             font-size: 0.9rem;
             color: #b59d7a;
         }
+
+        /* Лайтбокс (для детального просмотра фото) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .lightbox-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .lightbox-prev, .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.3);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .lightbox-prev { left: 10px; }
+        .lightbox-next { right: 10px; }
     </style>
     <!-- AOS CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <div class="site-wrapper">
+        <!-- Декоративные элементы -->
+        <div class="decor-flower"></div>
+        <div class="decor-rings"></div>
+
         <!-- КОНВЕРТ -->
         <div class="envelope" id="envelope">
             <div class="envelope__flap envelope__flap--top"></div>
@@ -544,11 +671,11 @@
                 </div>
                 <div class="polaroids-grid">
                     <div class="polaroid-card" data-aos="zoom-in" data-aos-delay="100">
-                        <img class="polaroid-card__img" src="img/photo_2828142553628518344_c.jpg" alt="Алан в детстве">
+                        <img class="polaroid-card__img" src="img/photo_5407076802045794657_y.jpg" alt="Алан в детстве">
                         <div class="polaroid-card__caption">Кто будет моим мужем, когда я вырасту?</div>
                     </div>
                     <div class="polaroid-card" data-aos="zoom-in" data-aos-delay="200">
-                        <img class="polaroid-card__img" src="img/photo_5407076802045794657_y.jpg" alt="Элина в детстве">
+                        <img class="polaroid-card__img" src="img/photo_2828142553628518344_c.jpg" alt="Элина в детстве">
                         <div class="polaroid-card__caption">Им буду я</div>
                     </div>
                 </div>
@@ -559,9 +686,10 @@
                 <h2>НАШИ ФОТО</h2>
                 <div class="carousel-container" id="photoCarousel">
                     <div class="carousel-track" id="photoTrack">
-                        <div class="carousel-slide"><img src="img/photo1.jpg" alt="Фото 1"></div>
-                        <div class="carousel-slide"><img src="img/photo2.jpg" alt="Фото 2"></div>
-                        <div class="carousel-slide"><img src="img/photo3.jpg" alt="Фото 3"></div>
+                        <div class="carousel-slide"><img src="img/IMG_9463.JPG" alt="Фото 1"></div>
+                        <div class="carousel-slide"><img src="img/photo_5271608465472295811_y.jpg" alt="Фото 2"></div>
+                        <div class="carousel-slide"><img src="img/photo_5271608465472295812_y.jpg" alt="Фото 3"></div>
+                        <div class="carousel-slide"><img src="img/photo_5271608465472295813_y.jpg" alt="Фото 4"></div>
                     </div>
                     <button class="carousel-btn prev" id="photoPrevBtn"><i class="fas fa-chevron-left"></i></button>
                     <button class="carousel-btn next" id="photoNextBtn"><i class="fas fa-chevron-right"></i></button>
@@ -578,12 +706,12 @@
                 <h2>МЫ ЖДЕМ ВАС</h2>
                 <div class="calendar-wrapper">
                     <div class="calendar-month">Август 2026</div>
-                    <div class="calendar-grid">
+                    <div class="calendar-grid" id="calendarGrid">
                         <div class="weekday">Пн</div><div class="weekday">Вт</div><div class="weekday">Ср</div><div class="weekday">Чт</div><div class="weekday">Пт</div><div class="weekday">Сб</div><div class="weekday">Вс</div>
                         <!-- 1 августа 2026 - суббота -->
                         <div></div><div></div><div></div><div></div><div></div>
                         <div class="calendar-day">1</div><div class="calendar-day">2</div>
-                        <div class="calendar-day">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day calendar-day--current">9</div>
+                        <div class="calendar-day">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day calendar-day--current" id="currentDay">9</div>
                         <div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div>
                         <div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div>
                         <div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div>
@@ -604,8 +732,11 @@
                         <div class="carousel-container" id="locationCarousel">
                             <div class="carousel-track" id="locationTrack">
                                 <div class="carousel-slide"><img src="img/orig.jpg" alt="Зал 1"></div>
-                                <div class="carousel-slide"><img src="img/location2.jpg" alt="Зал 2"></div>
-                                <div class="carousel-slide"><img src="img/location3.jpg" alt="Зал 3"></div>
+                                <div class="carousel-slide"><img src="img/photo_5271608465472295786_y.jpg" alt="Зал 2"></div>
+                                <div class="carousel-slide"><img src="img/photo_5271608465472295787_y.jpg" alt="Зал 3"></div>
+                                <div class="carousel-slide"><img src="img/photo_5271608465472295788_y.jpg" alt="Зал 4"></div>
+                                <div class="carousel-slide"><img src="img/photo_5271608465472295789_y.jpg" alt="Зал 5"></div>
+                                <div class="carousel-slide"><img src="img/photo_5271608465472295790_y.jpg" alt="Зал 6"></div>
                             </div>
                             <button class="carousel-btn prev" id="locationPrevBtn"><i class="fas fa-chevron-left"></i></button>
                             <button class="carousel-btn next" id="locationNextBtn"><i class="fas fa-chevron-right"></i></button>
@@ -663,17 +794,17 @@
                 <p>Лучшая поддержка для нас — ваши искренние пожелания и лучезарные улыбки, остальное можно подарить.</p>
             </section>
 
-            <!-- Анкета гостя -->
+            <!-- Анкета гостя (Google Forms iframe) -->
             <section class="slide" data-aos="fade-up">
                 <h2>АНКЕТА ГОСТЯ</h2>
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScVjbY5f0bZVMuOaReXQiVBVaK_s34EYRIinvmICHbu3gsg4A/viewform?usp=publish-editor?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScVjbY5f0bZVMuOaReXQiVBVaK_s34EYRIinvmICHbu3gsg4A/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
             </section>
 
             <!-- Контакты -->
             <section class="slide" data-aos="fade-up">
                 <h2>КОНТАКТЫ</h2>
                 <div class="contact-info">
-                    <p><i class="fas fa-phone-alt"></i> +7 (999) 123-45-67 (Алан)</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (999) 999-99-99 (имя)</p>
                     <p><i class="fas fa-envelope"></i> alan.elina@wedding.ru</p>
                     <p><i class="fas fa-heart"></i> По любым вопросам звоните или пишите!</p>
                 </div>
@@ -694,6 +825,16 @@
         </div>
     </div>
 
+    <!-- Лайтбокс (для детального просмотра фото) -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <button class="lightbox-prev" id="lightboxPrev">&#10094;</button>
+            <img id="lightboxImg" src="" alt="">
+            <button class="lightbox-next" id="lightboxNext">&#10095;</button>
+        </div>
+    </div>
+
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -704,13 +845,36 @@
             offset: 50
         });
 
-        // === 1. ОТКРЫТИЕ КОНВЕРТА ===
+        // === 1. ОТКРЫТИЕ КОНВЕРТА И АНИМАЦИЯ КАЛЕНДАРЯ ===
         const envelope = document.getElementById('envelope');
         const seal = document.getElementById('seal');
+        const currentDay = document.getElementById('currentDay');
+        const calendarGrid = document.getElementById('calendarGrid');
 
         seal.addEventListener('click', () => {
             envelope.classList.add('envelope--open');
+            // Запускаем анимацию календаря через 0.8 сек (время закрытия конверта)
+            setTimeout(() => {
+                if (currentDay) {
+                    currentDay.classList.add('animate');
+                }
+                if (calendarGrid) {
+                    calendarGrid.classList.add('fade-others');
+                }
+            }, 800);
         });
+
+        // Циклическая анимация календаря каждые 10 секунд
+        setInterval(() => {
+            if (currentDay && envelope.classList.contains('envelope--open')) {
+                // Убираем класс, чтобы перезапустить анимацию
+                currentDay.classList.remove('animate');
+                // Небольшая задержка перед добавлением, чтобы анимация сбросилась
+                setTimeout(() => {
+                    currentDay.classList.add('animate');
+                }, 100);
+            }
+        }, 10000);
 
         // === 2. КАРУСЕЛИ (универсальная функция) ===
         function initCarousel(trackId, prevId, nextId) {
@@ -754,14 +918,66 @@
                 }
                 touchStartX = 0;
             });
+
+            // Для лайтбокса добавим обработку клика на каждый слайд
+            Array.from(slides).forEach((slide, index) => {
+                slide.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const imgSrc = slide.querySelector('img').src;
+                    openLightbox(imgSrc, index, slides);
+                });
+            });
         }
+
+        // === 3. ЛАЙТБОКС ===
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        let currentLightboxIndex = 0;
+        let currentSlidesCollection = null;
+
+        function openLightbox(src, index, slides) {
+            lightbox.classList.add('active');
+            lightboxImg.src = src;
+            currentLightboxIndex = index;
+            currentSlidesCollection = slides;
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        function prevLightbox() {
+            if (currentSlidesCollection) {
+                currentLightboxIndex = (currentLightboxIndex - 1 + currentSlidesCollection.length) % currentSlidesCollection.length;
+                lightboxImg.src = currentSlidesCollection[currentLightboxIndex].querySelector('img').src;
+            }
+        }
+
+        function nextLightbox() {
+            if (currentSlidesCollection) {
+                currentLightboxIndex = (currentLightboxIndex + 1) % currentSlidesCollection.length;
+                lightboxImg.src = currentSlidesCollection[currentLightboxIndex].querySelector('img').src;
+            }
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', prevLightbox);
+        lightboxNext.addEventListener('click', nextLightbox);
+
+        // Закрытие по клику на фон
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
 
         // Инициализируем все карусели
         initCarousel('photoTrack', 'photoPrevBtn', 'photoNextBtn');
         initCarousel('locationTrack', 'locationPrevBtn', 'locationNextBtn');
         initCarousel('outfitTrack', 'outfitPrevBtn', 'outfitNextBtn');
 
-        // === 3. ТАЙМЕР ===
+        // === 4. ТАЙМЕР ===
         const countDownDate = new Date('Aug 9, 2026 17:00:00').getTime();
         function updateTimer() {
             const now = new Date().getTime();
@@ -784,54 +1000,6 @@
         }
         updateTimer();
         setInterval(updateTimer, 1000);
-
-        // === 4. ОТПРАВКА В GOOGLE ТАБЛИЦЫ (исправлено) ===
-        document.getElementById('submitRsvp').addEventListener('click', function() {
-            const name = document.getElementById('guestName').value.trim();
-            const attendance = document.querySelector('input[name="attendance"]:checked').value;
-            const resultDiv = document.getElementById('formResult');
-
-            if (!name) {
-                resultDiv.style.color = 'red';
-                resultDiv.innerText = 'Пожалуйста, введите имя.';
-                return;
-            }
-
-            // ⚠️ ЗАМЕНИТЕ НА СВОЙ URL ОТ GOOGLE APPS SCRIPT
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbz06gWmVHUxMaZXMPDNdgIfDhpzTd5jiDs_xWUnerX0F9HsMhWk4lgS0CBH5Cax2rp-/exec';
-
-            resultDiv.innerText = 'Отправка...';
-            resultDiv.style.color = '#7a6a58';
-
-            fetch(scriptURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    'Name': name,
-                    'Attendance': attendance
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'OK') {
-                    resultDiv.style.color = '#7a9e7e';
-                    resultDiv.innerText = 'Ответ записан, до встречи на торжестве';
-                    document.getElementById('guestName').value = '';
-                } else {
-                    resultDiv.style.color = 'red';
-                    resultDiv.innerText = 'Ошибка сервера. Попробуйте позже.';
-                }
-            })
-            .catch(error => {
-                resultDiv.style.color = 'red';
-                resultDiv.innerText = 'Ошибка соединения. Проверьте интернет.';
-                console.error('Error!', error.message);
-            });
-        });
     </script>
 </body>
 </html>
-
-
