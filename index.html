@@ -21,20 +21,24 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #BCC9D1;   /* мягкий серо-голубой */
+            background-color: #BCC9D1;               /* запасной цвет */
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            color: #3a4a5a;              /* глубокий тёмно-синий для текста */
+            color: #3a4a5a;
             line-height: 1.6;
             overflow-x: hidden;
+            /* Фоновое изображение */
+            background-image: url('img/photo_5271900497478619297_y.jpg');
+            background-size: cover;
+            background-attachment: fixed;
         }
 
         .site-wrapper {
             width: 100%;
             max-width: 600px;
-            background-color: #F5EBE2;    /* тёплый кремовый */
+            background-color: #F0F4F8;                /* новый светлый фон карточки */
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             position: relative;
             overflow: hidden;
@@ -72,7 +76,7 @@
             right: -30px;
             width: 130px;
             height: 130px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%238294A8"><path d="M30 50 Q 45 30 70 35 Q 80 40 75 55 Q 70 70 50 65 Q 35 60 30 50 Z"/><circle cx="55" cy="45" r="3" fill="%23F5EBE2"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%238294A8"><path d="M30 50 Q 45 30 70 35 Q 80 40 75 55 Q 70 70 50 65 Q 35 60 30 50 Z"/><circle cx="55" cy="45" r="3" fill="%23F0F4F8"/></svg>');
             opacity: 0.1;
         }
 
@@ -96,6 +100,8 @@
             opacity: 0.1;
         }
 
+        /* Дополнительные стикеры (добавлены через HTML, позиции заданы инлайн) */
+
         /* СТИЛИ КОНВЕРТА */
         .envelope {
             position: fixed;
@@ -105,7 +111,7 @@
             width: 100%;
             max-width: 600px;
             height: 100vh;
-            background-color: #F5EBE2;
+            background-color: #F0F4F8;                /* светлый фон */
             z-index: 100;
             display: flex;
             flex-direction: column;
@@ -122,7 +128,7 @@
 
         .envelope__flap {
             flex: 1;
-            background: linear-gradient(145deg, #F5EBE2 0%, #e8d9c0 100%);
+            background: linear-gradient(145deg, #F0F4F8 0%, #d9e0e6 100%);
             border: 2px solid #BCC9D1;
             position: relative;
             transition: transform 0.8s ease-in-out;
@@ -190,7 +196,7 @@
             font-family: 'Cormorant Garamond', serif;
             font-size: 3.5rem;
             font-weight: 700;
-            color: #F5EBE2;
+            color: #F0F4F8;
             text-shadow: 2px 2px 0 #4a5b6b;
             letter-spacing: 5px;
         }
@@ -218,7 +224,7 @@
         /* ПОЛАРОИДЫ */
         .polaroids-section {
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise" x="0%" y="0%" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.1 0"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.04"/></svg>');
-            background-color: #F5EBE2;
+            background-color: #F0F4F8;
             padding: 2rem 1rem;
             border-radius: 8px;
             margin-bottom: 2rem;
@@ -358,7 +364,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: #F5EBE2;
+            background: #F0F4F8;
             border: 1px solid #BCC9D1;
             padding: 1.5rem 1rem;
             border-radius: 16px;
@@ -390,7 +396,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1rem;
-            background: #F5EBE2;
+            background: #F0F4F8;
             border-radius: 50%;
             width: 36px;
             margin: 0 auto;
@@ -461,7 +467,7 @@
             border: 2px solid white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .color1 { background: #F5EBE2; }
+        .color1 { background: #F0F4F8; }
         .color2 { background: #BCC9D1; }
         .color3 { background: #8294A8; }
         .color4 { background: #6D8A9E; }
@@ -487,7 +493,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background-color: #F5EBE2;
+            background-color: #F0F4F8;
             border-radius: 8px;
         }
         .carousel-btn {
@@ -535,7 +541,7 @@
         }
         .btn:hover {
             background: #8294A8;
-            color: #F5EBE2;
+            color: #F0F4F8;
         }
 
         /* Форма анкеты (iframe) */
@@ -548,7 +554,7 @@
 
         /* Контакты */
         .contact-info {
-            background: #F5EBE2;
+            background: #F0F4F8;
             padding: 1.5rem;
             border-radius: 12px;
             border: 1px solid #BCC9D1;
@@ -652,6 +658,12 @@
         <div class="decor-bird"></div>
         <div class="decor-heart"></div>
         <div class="decor-leaf"></div>
+        <!-- Добавлено больше стикеров для насыщенности фона -->
+        <div class="decor-flower" style="top: 70%; left: -20px; transform: rotate(20deg); opacity:0.1;"></div>
+        <div class="decor-heart" style="bottom: 40%; right: -30px; transform: rotate(-10deg);"></div>
+        <div class="decor-bird" style="top: 15%; right: -20px;"></div>
+        <div class="decor-rings" style="top: 80%; left: -30px;"></div>
+        <div class="decor-leaf" style="bottom: 10%; left: 10px; width: 100px; height: 100px; opacity:0.08;"></div>
 
         <!-- КОНВЕРТ -->
         <div class="envelope" id="envelope">
