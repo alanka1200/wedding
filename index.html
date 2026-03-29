@@ -25,13 +25,15 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            min-height: 100vh;
+            min-height: 400vh;
             color: #3a4a5a;
             line-height: 1.6;
             overflow-x: hidden;
             /* Фоновое изображение */
-            background-image: url('photo_5271900497478619297_y.jpg');
+            background-image: url("img\photo_5271900497478619297_y.jpg");
             background-size: cover;
+
+            
             background-attachment: fixed;
         }
 
@@ -453,25 +455,40 @@
             100% { transform: translateY(0); }
         }
 
-        /* Дресс-код палитра */
+        /* Дресс-код палитра — улучшенный вид */
         .palette {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .palette-item {
+            text-align: center;
         }
         .palette-color {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+        .palette-color:hover {
+            transform: scale(1.08);
         }
         .color1 { background: #F0F4F8; }
         .color2 { background: #c6cbce; }
         .color3 { background: #FFB6C1; }
         .color4 { background: #6D8A9E; }
         .color5 { background: #987654; }
+        .palette-label {
+            font-size: 0.8rem;
+            color: #5a6b7a;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+        }
 
         /* Карусель (общая) */
         .carousel-container {
@@ -647,6 +664,27 @@
         }
         .lightbox-prev { left: 10px; }
         .lightbox-next { right: 10px; }
+        
+        /* Стиль для полных имён */
+        .fullnames {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            color: #4a5b6b;
+            background: rgba(130, 148, 168, 0.08);
+            padding: 0.8rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+            width: auto;
+            margin: 0 auto;
+        }
+        .gift-message {
+            background: rgba(255,255,245,0.5);
+            border-left: 3px solid #8294A8;
+            padding: 1rem;
+            border-radius: 12px;
+            font-style: italic;
+        }
     </style>
     <!-- AOS CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -681,9 +719,16 @@
 
         <!-- ОСНОВНОЙ КОНТЕНТ -->
         <div class="main-content" id="mainContent">
-            <!-- Текст приветствия (перенесён наверх) -->
+            <!-- Текст приветствия -->
             <section class="slide" data-aos="fade-up" style="margin-top:0;">
                 <p>Дорогие родные и друзья! Спешим сообщить вам радостную новость — мы женимся! В этот день мы очень хотим оказаться в окружении близких и дорогих людей.</p>
+            </section>
+
+            <!-- ПОЛНЫЕ ФИО молодоженов (новый блок) -->
+            <section class="slide" data-aos="fade-up" style="margin: 1rem 0 1rem;">
+                <div class="fullnames">
+                    Гайнетдинов Алан Айгизович<br> & <br> Рамазанова Элина Ринатовна
+                </div>
             </section>
 
             <!-- Слайд с полароидами и именами -->
@@ -693,39 +738,37 @@
                 </div>
                 <div class="polaroids-grid">
                     <div class="polaroid-card" data-aos="zoom-in" data-aos-delay="100">
-                        <img class="polaroid-card__img" src="photo_5407076802045794657_y.jpg" alt="Алан в детстве">
+                        <img class="polaroid-card__img" src="photo_5407076802045794657_y.jpg" alt="Элина в детстве">
                         <div class="polaroid-card__caption">Кто будет моим мужем, когда я вырасту?</div>
                     </div>
                     <div class="polaroid-card" data-aos="zoom-in" data-aos-delay="200">
-                        <img class="polaroid-card__img" src="photo_2828142553628518344_c.jpg" alt="Элина в детстве">
+                        <img class="polaroid-card__img" src="photo_2828142553628518344_c.jpg" alt="Алан в детстве">
                         <div class="polaroid-card__caption">Им буду я</div>
                     </div>
                 </div>
             </section>
 
-            <!-- БЛОК "НАШИ ФОТО" (заголовок убран) -->
+            <!-- БЛОК "НАШИ ФОТО" (карусель) -->
             <section class="slide" data-aos="fade-up">
-                <!-- заголовок <h2> удалён -->
                 <div class="carousel-container" id="photoCarousel">
                     <div class="carousel-track" id="photoTrack">
-                        <div class="carousel-slide"><img src="IMG_9463.JPG" alt="Фото 1"></div>
-                        <div class="carousel-slide"><img src="photo_5271608465472295811_y.jpg" alt="Фото 2"></div>
-                        <div class="carousel-slide"><img src="photo_5271608465472295812_y.jpg" alt="Фото 3"></div>
-                        <div class="carousel-slide"><img src="photo_5271608465472295813_y.jpg" alt="Фото 4"></div>
+                        <div class="carousel-slide"><img src="photo_1_2026-03-29_11-23-51.jpg" alt="Фото 1"></div>
+                        <div class="carousel-slide"><img src="photo_2_2026-03-29_11-23-51.jpg" alt="Фото 2"></div>
+                        <div class="carousel-slide"><img src="photo_3_2026-03-29_11-23-51.jpg" alt="Фото 3"></div>
+                        <div class="carousel-slide"><img src="photo_4_2026-03-29_11-23-51.jpg" alt="Фото 4"></div>
                     </div>
                     <button class="carousel-btn prev" id="photoPrevBtn"><i class="fas fa-chevron-left"></i></button>
                     <button class="carousel-btn next" id="photoNextBtn"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            <!-- Дата (календарь) – теперь статичный, без анимации -->
+            <!-- Дата (календарь) – статичный -->
             <section class="slide" data-aos="fade-up">
                 <h2>МЫ ЖДЕМ ВАС</h2>
                 <div class="calendar-wrapper">
                     <div class="calendar-month">Август 2026</div>
                     <div class="calendar-grid" id="calendarGrid">
                         <div class="weekday">Пн</div><div class="weekday">Вт</div><div class="weekday">Ср</div><div class="weekday">Чт</div><div class="weekday">Пт</div><div class="weekday">Сб</div><div class="weekday">Вс</div>
-                        <!-- 1 августа 2026 - суббота -->
                         <div></div><div></div><div></div><div></div><div></div>
                         <div class="calendar-day">1</div><div class="calendar-day">2</div>
                         <div class="calendar-day">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day calendar-day--current" id="currentDay">9</div>
@@ -744,7 +787,6 @@
                 <div class="location-details">
                     <h3>Банкетный зал Алсу Маликовой</h3>
                     <p>ул. Аделя Кутуя, д. 145Б, г. Казань<br>Республика Татарстан</p>
-                    <!-- Галерея локации -->
                     <div class="location-gallery">
                         <div class="carousel-container" id="locationCarousel">
                             <div class="carousel-track" id="locationTrack">
@@ -763,7 +805,7 @@
                 <a href="https://yandex.ru/maps/-/CPUn405q" target="_blank" class="btn">Открыть на карте</a>
             </section>
 
-            <!-- Программа дня с иконками + расширенное описание (без алкоголя) -->
+            <!-- Программа дня -->
             <section class="slide" data-aos="fade-up">
                 <h2>ПРОГРАММА ДНЯ</h2>
                 <div class="timeline">
@@ -785,40 +827,42 @@
                 </div>
             </section>
 
-            <!-- Дресс-код -->
+            <!-- Дресс-код: только цветовая палитра (убраны фото) -->
             <section class="slide" data-aos="fade-up">
                 <h2>ДРЕСС-КОД</h2>
                 <p>Будем рады видеть вас в красивых нарядах в палитре нашей свадьбы</p>
                 <div class="palette">
-                    <div class="palette-color color1"></div>
-                    <div class="palette-color color2"></div>
-                    <div class="palette-color color3"></div>
-                    <div class="palette-color color4"></div>
-                    <div class="palette-color color5"></div>
-                </div>
-
-                <!-- Карусель образов -->
-                <div class="carousel-container" id="outfitCarousel">
-                    <div class="carousel-track" id="outfitTrack">
-                        <div class="carousel-slide"><img src="photo_5271900497478619332_y.jpg" alt="Образ 1"></div>
-                        <div class="carousel-slide"><img src="photo_5271900497478619333_y.jpg" alt="Образ 2"></div>
-                        <div class="carousel-slide"><img src="photo_5271900497478619334_y.jpg" alt="Образ 3"></div>
-                        <div class="carousel-slide"><img src="photo_5271900497478619335_y.jpg" alt="Образ 4"></div>
-                        <div class="carousel-slide"><img src="photo_5271900497478619336_y.jpg" alt="Образ 5"></div>
-                        <div class="carousel-slide"><img src="photo_5271900497478619337_y.jpg" alt="Образ 6"></div>
+                    <div class="palette-item">
+                        <div class="palette-color color1"></div>
+                        <div class="palette-label">Белый</div>
                     </div>
-                    <button class="carousel-btn prev" id="outfitPrevBtn"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next" id="outfitNextBtn"><i class="fas fa-chevron-right"></i></button>
+                    <div class="palette-item">
+                        <div class="palette-color color2"></div>
+                        <div class="palette-label">Серый</div>
+                    </div>
+                    <div class="palette-item">
+                        <div class="palette-color color3"></div>
+                        <div class="palette-label">Розовый</div>
+                    </div>
+                    <div class="palette-item">
+                        <div class="palette-color color4"></div>
+                        <div class="palette-label">Синий</div>
+                    </div>ы
+                    <div class="palette-item">
+                        <div class="palette-color color5"></div>
+                        <div class="palette-label">Кофейный</div>
+                    </div>
                 </div>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem; color:#5a6b7a;">Вдохновляйтесь нашей гаммой и создавайте свой неповторимый образ.</p>
             </section>
 
             <!-- Пожелания -->
             <section class="slide" data-aos="fade-up">
                 <h2>ПОЖЕЛАНИЯ</h2>
-                <p>Лучшая поддержка для нас — ваши искренние пожелания и лучезарные улыбки, остальное можно подарить.</p>
+                <p>Лучшая поддержка для нас — ваши присутствие, искренние пожелания и лучезарные улыбки.</p>
             </section>
 
-            <!-- Анкета гостя (Google Forms iframe) -->
+            <!-- Анкета гостя -->
             <section class="slide" data-aos="fade-up">
                 <h2>АНКЕТА ГОСТЯ</h2>
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScVjbY5f0bZVMuOaReXQiVBVaK_s34EYRIinvmICHbu3gsg4A/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
@@ -831,6 +875,15 @@
                     <p><i class="fas fa-phone-alt"></i> +7 (999) 999-99-99 (имя)</p>
                     <p><i class="fas fa-envelope"></i> alan.elina@wedding.ru</p>
                     <p><i class="fas fa-heart"></i> По любым вопросам звоните или пишите!</p>
+                </div>
+            </section>
+
+            <!-- НОВЫЙ БЛОК: намёк на денежный подарок (изящно) -->
+            <section class="slide" data-aos="fade-up">
+                <h2>ТЕПЛЫЕ СЛОВА</h2>
+                <div class="gift-message">
+                    <p><i class="fas fa-gift" style="color:#8294A8; margin-right: 8px;"></i> Ваше присутствие — самый драгоценный дар. Если вы хотите поздравить нас материально, мы будем тронуты возможности внести вклад в наше общее будущее. Конверт с самыми тёплыми пожеланиями станет идеальным подарком.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.95rem;">Сердечно благодарим за понимание и вашу поддержку!</p>
                 </div>
             </section>
 
@@ -869,7 +922,7 @@
             offset: 50
         });
 
-        // === 1. ОТКРЫТИЕ КОНВЕРТА (без анимации календаря) ===
+        // === 1. ОТКРЫТИЕ КОНВЕРТА ===
         const envelope = document.getElementById('envelope');
         const seal = document.getElementById('seal');
 
@@ -877,7 +930,7 @@
             envelope.classList.add('envelope--open');
         });
 
-        // === 2. КАРУСЕЛИ ===
+        // === 2. КАРУСЕЛИ (только для фото и локации, карусель образов удалена) ===
         function initCarousel(trackId, prevId, nextId) {
             const track = document.getElementById(trackId);
             if (!track) return;
@@ -969,10 +1022,9 @@
             if (e.target === lightbox) closeLightbox();
         });
 
-        // Инициализация всех каруселей
+        // Инициализация только нужных каруселей (карусель образов удалена)
         initCarousel('photoTrack', 'photoPrevBtn', 'photoNextBtn');
         initCarousel('locationTrack', 'locationPrevBtn', 'locationNextBtn');
-        initCarousel('outfitTrack', 'outfitPrevBtn', 'outfitNextBtn');
 
         // === 4. ТАЙМЕР ===
         const countDownDate = new Date('Aug 9, 2026 17:00:00').getTime();
